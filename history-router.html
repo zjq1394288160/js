@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>historyrouter</title>
+</head>
+<body>
+    <div><a href="#/index">点我前往index页面</a></div>
+    <div><a href="#/subpage">点我前往subpage页面</a></div>
+
+    <!-- 路由渲染的UI容器 -->
+    <div id="routeView"></div>
+</body>
+
+<script>
+window.onload = function () {
+    window.addEventListener('popstate', onPopState);
+    var View = document.querySelector('#routeView');
+
+  // 去除a标签默认行为
+    let allA = document.querySelectorAll('a');
+    allA.forEach(value => value.addEventListener('click', function (e) {
+        e.preventDefault();
+        let herf = value.getAttribute('href');
+        history.pushState({page: herf}, "标题", herf);
+        onPopState()
+    }))
+
+    function onPopState () {
+        switch (location.hash) {
+            case '#/index':
+            View.innerHTML = 'this is index'
+            return
+            case '#/subpage':
+            View.innerHTML = 'this is subpage'
+            return
+            default:
+            return
+        }
+    }
+}
+</script>
