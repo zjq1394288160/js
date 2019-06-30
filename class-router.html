@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>historyrouter</title>
+</head>
+<body>
+</body>
+<div id="router-view"></div>
+<script>
+let view = document.getElementById('router-view');
+class Router {
+    constructor (routes=[], url) {
+        this.routes = routes;
+        this.url = url;
+    }
+    route(path, callback) {
+        console.log(path, callback)
+        this.routes[path] = callback;
+    }
+    refresh(path, callback) {
+        this.url = location.hash; // 获取hash
+        if(this.url && this.url!='/') {
+            this.routes[this.url](); // 执行回调函数
+        }
+    }
+    init() {
+        window.addEventListener('load', this.refresh.bind(this));
+        window.addEventListener('hashchange', this.refresh.bind(this));
+    }
+}
+let router = new Router();
+router.init();
+
+router.route('#index', function () {
+    view.innerHTML = 'this is index'
+});
+router.route('#home', function () {
+    view.innerHTML = 'this is home'
+});
+router.route('#about', function () {
+    view.innerHTML = 'this is about'
+})
+</script>
