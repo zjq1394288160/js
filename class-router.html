@@ -7,40 +7,39 @@
     <title>historyrouter</title>
 </head>
 <body>
+    <div><a href="#/index">index</a></div>
+    <div><a href="#/home">home</a></div>
+    <div><a href="#/about">about</a></div>
+    <div id="router-view"></div>
 </body>
-<div id="router-view"></div>
 <script>
 let view = document.getElementById('router-view');
 class Router {
-    constructor (routes=[], url) {
+    constructor (routes={}, url) {
         this.routes = routes;
         this.url = url;
-    }
-    route(path, callback) {
-        console.log(path, callback)
-        this.routes[path] = callback;
-    }
-    refresh(path, callback) {
-        this.url = location.hash; // 获取hash
-        if(this.url && this.url!='/') {
-            this.routes[this.url](); // 执行回调函数
-        }
-    }
-    init() {
         window.addEventListener('load', this.refresh.bind(this));
         window.addEventListener('hashchange', this.refresh.bind(this));
     }
+    route(path, callback) {
+        this.routes[path] = callback || function() {};
+    }
+    refresh(path, callback) {
+        this.url = location.hash.slice(1) || '/index';
+        console.log(this.routes, this.url)
+        this.routes[this.url]();
+    }
 }
-let router = new Router();
-router.init();
 
-router.route('#index', function () {
+let router = new Router();
+
+router.route('/index', function () {
     view.innerHTML = 'this is index'
 });
-router.route('#home', function () {
+router.route('/home', function () {
     view.innerHTML = 'this is home'
 });
-router.route('#about', function () {
+router.route('/about', function () {
     view.innerHTML = 'this is about'
 })
 </script>
