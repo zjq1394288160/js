@@ -31,10 +31,10 @@ function debounce(fn, wait) {
         if (flag) fn.apply(that, args);
     }
 }
-function handel () {
+function handle () {
     console.log('debounce: ' + Math.random())
 }
-window.addEventListener('scroll', debounce(handel, 1000));
+window.addEventListener('scroll', debounce(handle, 1000));
 
 /**
 * @description 立即执行版防抖
@@ -55,10 +55,10 @@ function debounce (fn, wait) {
         }, wait)
     }
 }
-function handel () {
+function handle () {
     console.log('debounce: ' + Math.random())
 }
-window.addEventListener('scroll', debounce(handel, 1000));
+window.addEventListener('scroll', debounce(handle, 1000));
 
 /**
  * @description 函数防抖封装
@@ -89,10 +89,10 @@ function debounce(fn,wait,immediate=false) {
     }
 }
 
-function handel () {
+function handle () {
     console.log('debounce: ' + Math.random())
 }
-window.addEventListener('scroll', debounce(handel, 1000));
+window.addEventListener('scroll', debounce(handle, 1000));
 
 /**
  * @description 函数节流时间戳版
