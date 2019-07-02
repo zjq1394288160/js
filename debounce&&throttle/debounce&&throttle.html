@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>debounce&&throttle</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+
+/**
+* @description 非立即执行版防抖
+* @param fn 函数
+* @param wait 毫秒
+* @author: zjq
+*/
+function debounce(fn, wait) {
+    var timer = null;
+    var that = this;
+    var args = arguments;
+    return function () {
+        if (timer) clearTimeout(timer);
+        var flag = !timer;
+        timer = setTimeout(function () {
+            timer = null;
+        }, wait)
+        if (flag) fn.apply(that, args);
+    }
+}
+function handel () {
+    console.log('debounce: ' + Math.random())
+}
+window.addEventListener('scroll', debounce(handel, 1000));
+
+/**
+* @description 立即执行版防抖
+* @param fn 函数
+* @param wait 毫秒
+* @author: zjq
+*/
+function debounce (fn, wait) {
+    var timer = null;
+    var that = this;
+    var args = arguments;
+    return function () {
+        if (timer) {
+            clearTimeout(timer)
+        }
+        timer = setTimeout(() => {
+            fn.apply(that, args)
+        }, wait)
+    }
+}
+function handel () {
+    console.log('debounce: ' + Math.random())
+}
+window.addEventListener('scroll', debounce(handel, 1000));
+
+/**
+ * @description 函数防抖封装
+ * @param fn 函数
+ * @param wait 毫秒
+ * @param immediate true 表立即执行，false 表非立即执行（默认为false）
+ * @author: zjq
+ */
+function debounce(fn,wait,immediate=false) {
+    let timer;
+    return function () {
+        let that = this;
+        let args = arguments;
+
+        if (timer) clearTimeout(timer);
+        if (immediate) {
+            let callNow = !timer;
+            timer = setTimeout(() => {
+                timer = null;
+            }, wait)
+            if (callNow) fn.apply(that, args)
+        }
+        else {
+            timer = setTimeout(() => {
+                fn.apply(that, args)
+            }, wait);
+        }
+    }
+}
+
+function handel () {
+    console.log('debounce: ' + Math.random())
+}
+window.addEventListener('scroll', debounce(handel, 1000));
+
+/**
+ * @description 函数节流时间戳版
+ * @param fn 函数
+ * @param wait 毫秒
+ * @author: zjq
+ */
+function throttle(fn, wait) {
+    var previous = 0;
+    return function () {
+        var now = Date.now();
+        var that = this;
+        var args = arguments;
+        if (now - previous > wait) {
+            fn.apply(that, args);
+            previous = now;
+        }
+    }
+}
+let body = document.querySelector('body');
+function random() {
+    console.log('throttle: ' + Math.random())
+};
+body.onmousemove = throttle(random,1000);
+
+/**
+ * @description 函数节流定时器
+ * @param fn 函数
+ * @param wait 毫秒
+ * @author: zjq
+ */
+function throttle(fn, wait) {
+    var previous = 0;
+    return function () {
+        var now = Date.now();
+        var that = this;
+        var args = arguments;
+        if (now - previous > wait) {
+            fn.apply(that, args);
+            previous = now;
+        }
+    }
+}
+let body = document.querySelector('body');
+function random() {
+    console.log('throttle: ' + Math.random())
+};
+body.onmousemove = throttle(random,1000);
+
+/**
+ * @description 函数节流封装
+ * @param fn函数
+ * @param wait 毫秒
+ * @param flag 1 表时间戳版，2 表定时器版（默认为1）
+ * @author: zjq
+ */
+function throttle(fn, wait ,flag=1) {
+    if(flag===1){
+        let previous = 0;
+    }else if(flag===2){
+        let timer;
+    }
+    return function() {
+        let that = this;
+        let args = arguments;
+        if(flag===1){
+            let now = Date.now();
+            if (now - previous > wait) {
+                fn.apply(that, args);
+                previous = now;
+            }
+        }else if(flag===2){
+            if (!timer) {
+                timer = setTimeout(() => {
+                    timer = null;
+                    fn.apply(that, args)
+                }, wait)
+            }
+        }
+    }
+}
+
+let body = document.querySelector('body');
+function random() {
+    console.log('throttle: ' + Math.random())
+};
+body.onmousemove = throttle(random,1000);
+</script>
