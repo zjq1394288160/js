@@ -1,4 +1,4 @@
-# y
+# vue-router mini
 
 > A Vue.js project
 
