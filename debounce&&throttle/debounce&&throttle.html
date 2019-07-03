@@ -119,23 +119,25 @@ function random() {
 body.onmousemove = throttle(random,1000);
 
 /**
- * @description 函数节流定时器
+ * @description 函数节流定时器版
  * @param fn 函数
  * @param wait 毫秒
  * @author: zjq
  */
 function throttle(fn, wait) {
-    var previous = 0;
-    return function () {
-        var now = Date.now();
+    var timer;
+    return function() {
         var that = this;
         var args = arguments;
-        if (now - previous > wait) {
-            fn.apply(that, args);
-            previous = now;
+        if (!timer) {
+            timer = setTimeout(function(){
+                timer = null;
+                func.apply(that, args)
+            }, wait)
         }
     }
 }
+
 let body = document.querySelector('body');
 function random() {
     console.log('throttle: ' + Math.random())
